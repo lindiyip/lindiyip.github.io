@@ -140,53 +140,16 @@
     <div class="header"><b>Housing prices over the years</b></div>
     <div class="parent">
       <div class="child">Town</div>
-      <!-- <select name="town id="town"> -->
-      <!-- <option value="1" disabled>1</option>
-        <option value="2">2</option>
-        <option value="3"selected>3</option>
-      </select> -->
-      <div class="dropdown">
-        <button onclick="dropdownTown(event)" class="dropbtn">Dropdown</button>
-        <div id="town" class="dropdown-content">
-          <a href="#">Link 1</a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
-        </div>
-      </div>
-
+      <select id="selTown" id ="selectTown">
+        <option>Choose preferred town</option>
+      </select>
     </div>
     <div class="parent">
       <div class="child">Flat Model</div>
-      <!-- <select name="flat" id="town">
-        <option value="4" disabled>4</option>
-        <option value="5">5</option>
-        <option value="6"selected>6</option>
-      </select> -->
-      <div class="dropdown">
-        <button onclick="dropdownFlat(event)" class="dropbtn">Dropdown</button>
-        <div id="flatModel" class="dropdown-content">
-          <a href="#">Link 4</a>
-          <a href="#">Link 5</a>
-          <a href="#">Link 6</a>
-        </div>
-      </div>
+      <select id="selType">
+        <option>Choose preferred flat model</option>
+      </select>
     </div>
-    <div class="parent">
-      <div class="child">Remaining lease</div>
-      <!-- <select name="lease" id="lease">
-        <option value="7" disabled>7</option>
-        <option value="8">8</option>
-        <option value="9"selected>9</option>
-      </select> -->
-      <div class="dropdown">
-        <button onclick="dropdownLease(event)" class="dropbtn">Dropdown</button>
-        <div id="lease" class="dropdown-content">
-          <a href="#">Link 7</a>
-          <a href="#">Link 8</a>
-          <a href="#">Link 9</a>
-        </div>
-      </div>
-      </div>
       <button
         id="btn1"
         class="bg-blue-500 text-white p-2 rounded-lg border border-black m-4"
@@ -194,41 +157,30 @@
       >
         Fetch Data
       </button>
+      <p id="demo1"></p>
+      <p id="demo2"></p>
       <div class="parent">
         <div class="child-graph">
-          Rental prices / years
+          Rental prices
           <div class="child-graph">
             <div>
-              to read data and create line graph
+              call API, filter data based on input and display bar graph
               <canvas id="myChart"></canvas>
             </div>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
           </div>
         </div>
         <div class="child-graph">
-          Resale flat prices / years
+          Resale flat prices
           <div class="child-graph">
             <div>
               to read data and create line graph
               <canvas id="myChart"></canvas>
             </div>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
           </div>
         </div>
       </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">town</th>
-          <th scope="col">lease_commence_date</th>
-          <th scope="col">flat_type</th>
-          <th scope="col">resale_price</th>
-        </tr>
-      </thead>
-      <tbody id="targetElement">
-        <!-- Dynamically render data here -->
-      </tbody>
-    </table>
   </body>
 </html>
