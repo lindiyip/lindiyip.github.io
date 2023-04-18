@@ -23,181 +23,212 @@
       referrerpolicy="no-referrer"
     />
     <script defer src="./index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .header {
-          border: 1px solid;
-          background-color: brown;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          width: 1000px;
-          padding: 10px
-        }.parent {
-          border: 1px solid;
-          background-color: brown;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          width: 1000px;
-          padding: 10px
-        }.child {
-          border: 1px solid;
-          background-color: palegoldenrod;
-          display: flex;
-          flex-direction: row;
-          justify-content: left;
-          padding-right: 20 px;
-          flex-basis: 20%;
-          text-align: center;
-        }.child-list {
-          border: 1px solid;
-          background-color: blueviolet;
-          display: flex;
-          flex-direction: row;
-          justify-content: left;
-          text-align: center;
-          margin: 20 px;
-          flex-basis: 50%;
-          padding: 5px;
-        }.child-button {
-          border: 1px solid;
-          background-color: rgb(12, 243, 31);
-          display: flex;
-          flex-direction: right;
-          justify-content: center;
-          text-align: center;
-          flex-basis: 20%;
-          padding: 5px;
-        }.child-graph {
-          border: 1px solid;
-          background-color: orange;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          text-align: center;
-          flex-basis: 50%;
-          padding: 5px;
-        }
-        /* Dropdown Button */
-        .dropbtn {
-          background-color: #3498DB;
-          color: white;
-          padding: 5px;
-          font-size: 16px;
-          border: none;
-          cursor: pointer;
-        }
+      .header {
+        border: 1px;
+        background-color: brown;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 1000px;
+        padding: 10px;
+      }
+      .parent {
+        border: 1px solid;
+        background-color: brown;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 1000px;
+        padding: 10px;
+      }
+      .child {
+        border: 1px solid;
+        background-color: palegoldenrod;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        padding-right: 20 px;
+        flex-basis: 20%;
+        text-align: center;
+      }
+      .child-list {
+        border: 1px solid;
+        background-color: blueviolet;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        text-align: center;
+        margin: 20 px;
+        flex-basis: 50%;
+        padding: 5px;
+      }
+      .child-button {
+        border: 1px solid;
+        background-color: rgb(12, 243, 31);
+        display: flex;
+        flex-direction: right;
+        justify-content: center;
+        text-align: center;
+        flex-basis: 20%;
+        padding: 5px;
+      }
+      .child-graph {
+        border: 1px solid;
+        background-color: orange;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        flex-basis: 50%;
+        padding: 5px;
+      }
+      /* Dropdown Button */
+      .dropbtn {
+        background-color: #3498db;
+        color: white;
+        padding: 5px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
 
-        /* Dropdown button on hover & focus */
-        .dropbtn:hover, .dropbtn:focus {
-          background-color: #2980B9;
-        }
+      /* Dropdown button on hover & focus */
+      .dropbtn:hover,
+      .dropbtn:focus {
+        background-color: #2980b9;
+      }
 
-        /* The container <div> - needed to position the dropdown content */
-        .dropdown {
-          position: relative;
-          display: inline-block;
-        }
+      /* The container <div> - needed to position the dropdown content */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
 
-        /* Dropdown Content (Hidden by Default) */
-        .dropdown-content {
-          display: none;
-          position: absolute;
-          background-color: #f1f1f1;
-          min-width: 160px;
-          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-          z-index: 1;
-        }
+      /* Dropdown Content (Hidden by Default) */
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
 
-        /* Links inside the dropdown */
-        .dropdown-content a {
-          color: black;
-          padding: 12px 16px;
-          text-decoration: none;
-          display: block;
-        }
+      /* Links inside the dropdown */
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
 
-          /* Change color of dropdown links on hover */
-          .dropdown-content a:hover {background-color: #ddd;}
+      /* Change color of dropdown links on hover */
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
 
-          /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-          .show {display:block;}
+      /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+      .show {
+        display: block;
+      }
     </style>
   </head>
   <body>
     <div class="header"><b>Housing prices over the years</b></div>
     <div class="parent">
       <div class="child">Town</div>
-      <select name="town id="town">
-        <option value="1" disabled>1</option>
+      <!-- <select name="town id="town"> -->
+      <!-- <option value="1" disabled>1</option>
         <option value="2">2</option>
         <option value="3"selected>3</option>
-      </select>
-      <!-- <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+      </select> -->
+      <div class="dropdown">
+        <button onclick="dropdownTown(event)" class="dropbtn">Dropdown</button>
         <div id="town" class="dropdown-content">
           <a href="#">Link 1</a>
           <a href="#">Link 2</a>
           <a href="#">Link 3</a>
         </div>
-      </div> -->
+      </div>
+
     </div>
     <div class="parent">
       <div class="child">Flat Model</div>
-      <select name="flat" id="town">
+      <!-- <select name="flat" id="town">
         <option value="4" disabled>4</option>
         <option value="5">5</option>
         <option value="6"selected>6</option>
-      </select>
-      <!-- <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+      </select> -->
+      <div class="dropdown">
+        <button onclick="dropdownFlat(event)" class="dropbtn">Dropdown</button>
         <div id="flatModel" class="dropdown-content">
           <a href="#">Link 4</a>
           <a href="#">Link 5</a>
           <a href="#">Link 6</a>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="parent">
       <div class="child">Remaining lease</div>
-      <select name="lease" id="lease">
+      <!-- <select name="lease" id="lease">
         <option value="7" disabled>7</option>
         <option value="8">8</option>
         <option value="9"selected>9</option>
-      </select>
-      <!-- <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+      </select> -->
+      <div class="dropdown">
+        <button onclick="dropdownLease(event)" class="dropbtn">Dropdown</button>
         <div id="lease" class="dropdown-content">
           <a href="#">Link 7</a>
           <a href="#">Link 8</a>
           <a href="#">Link 9</a>
         </div>
-      </div> -->
-    </div>
-    <div class="parent">
-      <div class="child-button">Fetch data</div>
-    </div>
-    <div class="parent">
-      <div class="child-graph">
-        Rental prices / years
+      </div>
+      </div>
+      <button
+        id="btn1"
+        class="bg-blue-500 text-white p-2 rounded-lg border border-black m-4"
+        onclick="fetch()"
+      >
+        Fetch Data
+      </button>
+      <div class="parent">
         <div class="child-graph">
-          <div>
-            to read data and create line graph
-            <canvas id="myChart"></canvas>
+          Rental prices / years
+          <div class="child-graph">
+            <div>
+              to read data and create line graph
+              <canvas id="myChart"></canvas>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
           </div>
-          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        </div>
+        <div class="child-graph">
+          Resale flat prices / years
+          <div class="child-graph">
+            <div>
+              to read data and create line graph
+              <canvas id="myChart"></canvas>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          </div>
         </div>
       </div>
-      <div class="child-graph">
-        Resale flat prices / years
-        <div class="child-graph">
-          <div>
-            to read data and create line graph
-            <canvas id="myChart"></canvas>
-          </div>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      </div></div>
-      </div>
     </div>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">town</th>
+          <th scope="col">lease_commence_date</th>
+          <th scope="col">flat_type</th>
+          <th scope="col">resale_price</th>
+        </tr>
+      </thead>
+      <tbody id="targetElement">
+        <!-- Dynamically render data here -->
+      </tbody>
+    </table>
   </body>
 </html>
