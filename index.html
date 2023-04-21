@@ -23,7 +23,6 @@
       referrerpolicy="no-referrer"
     />
     <script defer src="./index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       .header {
         border: 1px;
@@ -140,25 +139,22 @@
     <div class="header"><b>Housing prices over the years</b></div>
     <div class="parent">
       <div class="child">Town</div>
-      <select id="selTown" id ="selectTown">
-        <option>Choose preferred town</option>
+      <select id="selTown" onclick="GetTownDropdown()">
+        <option >Choose preferred town</option>
       </select>
     </div>
     <div class="parent">
       <div class="child">Flat Model</div>
-      <select id="selType">
+      <select id="selType" onclick="GetTypeDropdown()"">
         <option>Choose preferred flat model</option>
       </select>
     </div>
       <button
-        id="btn1"
-        class="bg-blue-500 text-white p-2 rounded-lg border border-black m-4"
-        onclick="fetch()"
+      id="btn1"  
+      class="bg-blue-500 text-white p-2 rounded-lg border border-black m-4"
       >
         Fetch Data
       </button>
-      <p id="demo1"></p>
-      <p id="demo2"></p>
       <div class="parent">
         <div class="child-graph">
           Rental prices

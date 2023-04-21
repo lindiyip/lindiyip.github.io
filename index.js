@@ -4,101 +4,109 @@ var dropdown_town = [];
 var lookup_type = {};
 var dropdown_type = [];
 
-var records = {};
+var records;
+
+var selectedTown = "";
+var selectedType = "";
+
+window.onload = function () {
+  CallAPI();
+};
 
 // call API
-$.ajax({
-  url: "https://data.gov.sg/api/action/datastore_search",
-  type: "GET",
-  data: { resource_id: "1b702208-44bf-4829-b620-4615ee19b57c" },
-  dataType: "JSON",
-  success: function (data) {
-    // console.log(data["result"]);
-    var records = data["result"]["records"];
-    // console.log(records);
+async function CallAPI() {
+  try {
+    await $.ajax({
+      url: "https://data.gov.sg/api/action/datastore_search",
+      type: "GET",
+      data: {
+        resource_id: "f1765b54-a209-4718-8d38-a39237f502b3",
+        limit: 1500,
+      },
+      // data: { resource_id: "1b702208-44bf-4829-b620-4615ee19b57c" },
+      dataType: "JSON",
+      success: function (data) {
+        //
+        // Accessing data in records
 
-    // create droplist_town
-    var items_town = records;
-    for (let item, i = 0; (item = items_town[i++]); ) {
-      let name = item.town;
-
-      if (!(name in lookup_town)) {
-        lookup_town[name] = 1;
-        dropdown_town.push(name);
-      }
-    }
-    dropdown_town.sort();
-    $(function () {
-      console.log(dropdown_town);
-      $.each(dropdown_town, function (i, option) {
-        $("#selTown").append($("<option/>").attr("value", option).text(option));
-      });
+        records = data["result"]["records"];
+        // console.log(records);
+      },
     });
+  } catch (e) {
+    console.log("Unable to fetch data from API");
+  }
+}
 
-    // create droplist_type
-    var items_type = records;
-    for (let item, i = 0; (item = items_type[i++]); ) {
-      let name = item.flat_type;
+// create droplist for towns
+function GetTownDropdown() {
+  for (let item, i = 0; (item = records[i++]); ) {
+    let town_name = item.town;
 
-      if (!(name in lookup_type)) {
-        lookup_type[name] = 1;
-        dropdown_type.push(name);
-      }
+    if (!(town_name in lookup_town)) {
+      lookup_town[town_name] = 1;
+      dropdown_town.push(town_name);
     }
-    dropdown_type.sort();
-    // console.log(dropdown_type);
-    $(function () {
-      console.log(dropdown_type);
-      $.each(dropdown_type, function (i, option) {
-        $("#selType").append($("<option/>").attr("value", option).text(option));
-      });
+  }
+  dropdown_town.sort();
+  $(function () {
+    $.each(dropdown_town, function (i, option) {
+      $("#selTown").append($("<option/>").attr("value", i).text(option));
     });
-  },
-});
+  });
+}
+
+// create droplist for flat type
+function GetTypeDropdown() {
+  for (let item, i = 0; (item = records[i++]); ) {
+    let town_type = item.flat_type;
+
+    if (!(town_type in lookup_type)) {
+      lookup_town[town_type] = 1;
+      dropdown_type.push(town_type);
+    }
+  }
+  dropdown_town.sort();
+  $(function () {
+    $.each(dropdown_town, function (i, option) {
+      $("#selTown").append($("<option/>").attr("value", i).text(option));
+    });
+  });
+}
 
 // fetch data button
 function fetch() {
-  $.ajax({
-    url: "https://data.gov.sg/api/action/datastore_search",
-    type: "GET",
-    data: { resource_id: "1b702208-44bf-4829-b620-4615ee19b57c" },
-    dataType: "JSON",
-    success: function (data) {
-      console.log(data["result"]);
-      var records = data["result"]["records"];
-      console.log(records);
-    },
-  });
-
-  // User dropdown selection
-  var townSelection = document.getElementById("selTown").value;
-  document.getElementById("demo1").innerHTML = townSelection;
-  console.log(townSelection);
-
-  var typeSelection = document.getElementById("selType").value;
-  document.getElementById("demo2").innerHTML = typeSelection;
-  console.log(typeSelection);
+  console.log(records);
 }
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function (event) {
-  if (!event.target.matches(".dropbtn")) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains("show")) {
-        openDropdown.classList.remove("show");
-      }
-    }
-  }
-};
+// Determine selected options at dropdown list
+// const selTown = document.getElementById("selTown");
+// selectedTown = selTown.options[selTown.selectedIndex];
+// console.log(selectedTown);
 
-// line graph - resale flat prices
+// const selType = document.getElementById("selType");
+// selectedType = selType.options[selType.selectedIndex];
+// console.log(selectedType);
+
+// Create bar graph for resale flat prices
+// Flat model
+// Price
+
+// countOccurence = 0;
+// totalAmount = 0;
+// for (i = 0; 1 < records.length; i++) {
+//   if (records.town == selectedTown) {
+//     console.log("vaildated");
+//     countOccurence += 1;
+//     totalAmount += records.resale_price;
+//   }
+// }
+// console.log(countOccurence);
+// console.log(totalAmount);
+
 // const ctx = $("#myChart");
-
 // new Chart(ctx, {
-//   type: "line",
+//   type: "bar",
 //   data: {
 //     labels: records.map((row) => row.timestamp),
 //     datasets: [
