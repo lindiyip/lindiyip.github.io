@@ -23,6 +23,7 @@
       referrerpolicy="no-referrer"
     />
     <script defer src="./index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       .header {
         border: 1px;
@@ -140,18 +141,19 @@
     <div class="parent">
       <div class="child">Town</div>
       <select id="selTown" onclick="GetTownDropdown()">
-        <option >Choose preferred town</option>
+        <option selected disabled hidden>Choose preferred town</option>
       </select>
     </div>
     <div class="parent">
-      <div class="child">Flat Model</div>
+      <div class="child">Flat Type</div>
       <select id="selType" onclick="GetTypeDropdown()"">
-        <option>Choose preferred flat model</option>
+        <option selected disabled hidden>Choose preferred flat type</option>
       </select>
     </div>
       <button
-      id="btn1"  
+      id="fetch_button"  
       class="bg-blue-500 text-white p-2 rounded-lg border border-black m-4"
+      onclick ="fetch()"
       >
         Fetch Data
       </button>
@@ -161,7 +163,7 @@
           <div class="child-graph">
             <div>
               call API, filter data based on input and display bar graph
-              <canvas id="myChart"></canvas>
+              <canvas id="Rental_Chart"></canvas>
             </div>
             <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
           </div>
@@ -170,8 +172,7 @@
           Resale flat prices
           <div class="child-graph">
             <div>
-              to read data and create line graph
-              <canvas id="myChart"></canvas>
+              <canvas id="Resale_Chart"></canvas>
             </div>
             <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
           </div>
