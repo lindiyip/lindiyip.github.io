@@ -5,6 +5,7 @@ var lookup_type = {};
 var dropdown_type;
 
 var records;
+var recordsRental;
 var myChart;
 
 var selectedTown = "";
@@ -12,6 +13,7 @@ var selectedType = "";
 
 window.onload = function () {
   CallAPI();
+  CallAPIRental();
 };
 
 // call API
@@ -38,6 +40,28 @@ async function CallAPI() {
   }
 }
 
+async function CallAPIRental() {
+  try {
+    await $.ajax({
+      url: "https://data.gov.sg/api/action/datastore_search",
+      type: "GET",
+      data: {
+        resource_id: "9caa8451-79f3-4cd6-a6a7-9cecc6d59544",
+        limit: 5,
+      },
+      dataType: "JSON",
+      success: function (data) {
+        // Accessing data in records
+
+        recordsRental = data["result"]["records"];
+        console.log(recordsRental);
+      },
+    });
+  } catch (e) {
+    console.log("Unable to fetch data from API");
+  }
+}
+
 // create droplist for towns
 function GetTownDropdown() {
   setTimeout(() => {
@@ -50,6 +74,15 @@ function GetTownDropdown() {
         dropdown_town.push(town_name);
       }
     }
+    for (let item, n = 0; (item = recordsRental[n++]); ) {
+      let town_rental = item.town;
+
+      if (!(town_rental in lookup_town)) {
+        lookup_town[town_rental] = 1;
+        dropdown_town.push(town_rental);
+      }
+    }
+
     dropdown_town.sort();
     const town_list = $("#selTown");
     for (let i = 0; i < dropdown_town.length; i++) {
@@ -68,6 +101,14 @@ function GetTypeDropdown() {
       if (!(flat_type in lookup_type)) {
         lookup_type[flat_type] = 1;
         dropdown_type.push(flat_type);
+      }
+    }
+    for (let item, m = 0; (item = records[m++]); ) {
+      let flat_type_rental = item.flat_type;
+
+      if (!(flat_type_rental in lookup_type)) {
+        lookup_type[flat_type_rental] = 1;
+        dropdown_type.push(flat_type_rental);
       }
     }
     dropdown_type.sort();
@@ -98,6 +139,7 @@ function fetch() {
     } else if (selectedType == "Choose preferred flat type") {
       alert("Please select a flat type.");
     } else {
+      // Resale flat prices calculations
       const flat_prices = {};
       for (let item, i = 0; (item = records[i++]); ) {
         const town = item.town;
@@ -118,7 +160,7 @@ function fetch() {
       }
       // console.log(flat_prices);
       if (Object.keys(flat_prices).length === 0) {
-        alert("No flats found. Please select another Town or Flat Type");
+        alert("No resale flats found. Please select another Town or Flat Type");
       } else {
         const ctx = $("#Resale_Chart");
 
@@ -146,6 +188,55 @@ function fetch() {
           },
         });
       }
-    }
+
+      // Rental prices calculation
+      const rental_prices = {};
+      for (let item, j = 0; (item = recordsRental[j++]); ) {
+        const town = item.town;
+        const type = item.flat_type;
+        const year = item.rent_approval_date.slice(0, 4);
+        const price = parseInt(item.monthly_rent);
+        if (town == selectedTown && type == selectedType) {
+          if (!(year in rental_prices)) {
+            rental_prices[year] = [price];
+          } else {
+            rental_prices[year].push(price);
+          }
+        }
+      }
+      // for (const [key, value] of Object.entries(rental_prices)) {
+      //   rental_prices[key] = average(rental_prices[key]);
+      // }
+      console.log(rental_prices);
+      // if (Object.keys(rental_prices).length === 0) {
+      //   alert("No rental flats found. Please select another Town or Flat Type");
+      // } else {
+      //   const ctx = $("#Rental_Chart");
+
+      //   if (!(myChart === undefined)) {
+      //     // console.log("removing previous chart");
+      //     myChart.destroy();
+      //   }
+      //   myChart = new Chart(ctx, {
+      //     type: "bar",
+      //     data: {
+      //       labels: Object.keys(rental_prices),
+      //       datasets: [
+      //         {
+      //           label: "Rental Price",
+      //           data: Object.values(rental_prices),
+      //         },
+      //       ],
+      //     },
+      //     options: {
+      //       scales: {
+      //         y: {
+      //           beginAtZero: true,
+      //         },
+      //       },
+      //     },
+      //   });
+      // }
+    } // else ends here
   }, 700);
 }
