@@ -7,6 +7,7 @@ var dropdown_type;
 var records;
 var recordsRental;
 var myChart;
+var rentalChart;
 
 var selectedTown = "";
 var selectedType = "";
@@ -47,14 +48,14 @@ async function CallAPIRental() {
       type: "GET",
       data: {
         resource_id: "9caa8451-79f3-4cd6-a6a7-9cecc6d59544",
-        limit: 5,
+        limit: 50000,
       },
       dataType: "JSON",
       success: function (data) {
         // Accessing data in records
 
         recordsRental = data["result"]["records"];
-        console.log(recordsRental);
+        // console.log(recordsRental);
       },
     });
   } catch (e) {
@@ -66,6 +67,8 @@ async function CallAPIRental() {
 function GetTownDropdown() {
   setTimeout(() => {
     dropdown_town = [];
+
+    // For getting resale town list
     for (let item, j = 0; (item = records[j++]); ) {
       let town_name = item.town;
 
@@ -74,6 +77,8 @@ function GetTownDropdown() {
         dropdown_town.push(town_name);
       }
     }
+
+    // For getting rental town list
     for (let item, n = 0; (item = recordsRental[n++]); ) {
       let town_rental = item.town;
 
@@ -95,22 +100,26 @@ function GetTownDropdown() {
 function GetTypeDropdown() {
   setTimeout(() => {
     dropdown_type = [];
+
+    // For getting resale type list
     for (let item, i = 0; (item = records[i++]); ) {
       let flat_type = item.flat_type;
-
       if (!(flat_type in lookup_type)) {
         lookup_type[flat_type] = 1;
         dropdown_type.push(flat_type);
       }
     }
-    for (let item, m = 0; (item = records[m++]); ) {
-      let flat_type_rental = item.flat_type;
 
+    // For getting rental type list
+    for (let item, m = 0; (item = recordsRental[m++]); ) {
+      let flat_type_rental = item.flat_type;
+      flat_type_rental = flat_type_rental.replace("-", " ");
       if (!(flat_type_rental in lookup_type)) {
         lookup_type[flat_type_rental] = 1;
         dropdown_type.push(flat_type_rental);
       }
     }
+
     dropdown_type.sort();
     const type_list = $("#selType");
     for (let j = 0; j < dropdown_type.length; j++) {
@@ -193,7 +202,7 @@ function fetch() {
       const rental_prices = {};
       for (let item, j = 0; (item = recordsRental[j++]); ) {
         const town = item.town;
-        const type = item.flat_type;
+        const type = item.flat_type.replace("-", " ");
         const year = item.rent_approval_date.slice(0, 4);
         const price = parseInt(item.monthly_rent);
         if (town == selectedTown && type == selectedType) {
@@ -204,39 +213,39 @@ function fetch() {
           }
         }
       }
-      // for (const [key, value] of Object.entries(rental_prices)) {
-      //   rental_prices[key] = average(rental_prices[key]);
-      // }
-      console.log(rental_prices);
-      // if (Object.keys(rental_prices).length === 0) {
-      //   alert("No rental flats found. Please select another Town or Flat Type");
-      // } else {
-      //   const ctx = $("#Rental_Chart");
+      for (const [key, value] of Object.entries(rental_prices)) {
+        rental_prices[key] = average(rental_prices[key]);
+      }
+      // console.log(rental_prices);
+      if (Object.keys(rental_prices).length === 0) {
+        alert("No rental flats found. Please select another Town or Flat Type");
+      } else {
+        const ctx_rent = $("#Rental_Chart");
 
-      //   if (!(myChart === undefined)) {
-      //     // console.log("removing previous chart");
-      //     myChart.destroy();
-      //   }
-      //   myChart = new Chart(ctx, {
-      //     type: "bar",
-      //     data: {
-      //       labels: Object.keys(rental_prices),
-      //       datasets: [
-      //         {
-      //           label: "Rental Price",
-      //           data: Object.values(rental_prices),
-      //         },
-      //       ],
-      //     },
-      //     options: {
-      //       scales: {
-      //         y: {
-      //           beginAtZero: true,
-      //         },
-      //       },
-      //     },
-      //   });
-      // }
+        if (!(rentalChart === undefined)) {
+          // console.log("removing previous chart");
+          rentalChart.destroy();
+        }
+        rentalChart = new Chart(ctx_rent, {
+          type: "bar",
+          data: {
+            labels: Object.keys(rental_prices),
+            datasets: [
+              {
+                label: "Rental Price",
+                data: Object.values(rental_prices),
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      }
     } // else ends here
   }, 700);
 }
