@@ -17,7 +17,7 @@ window.onload = function () {
   CallAPIRental();
 };
 
-// call API
+// Get resale flat information
 async function CallAPI() {
   try {
     await $.ajax({
@@ -25,7 +25,7 @@ async function CallAPI() {
       type: "GET",
       data: {
         resource_id: "f1765b54-a209-4718-8d38-a39237f502b3",
-        limit: 50000,
+        limit: 150000,
       },
       // data: { resource_id: "1b702208-44bf-4829-b620-4615ee19b57c" },
       dataType: "JSON",
@@ -41,6 +41,7 @@ async function CallAPI() {
   }
 }
 
+// Get rental flat information
 async function CallAPIRental() {
   try {
     await $.ajax({
@@ -48,7 +49,7 @@ async function CallAPIRental() {
       type: "GET",
       data: {
         resource_id: "9caa8451-79f3-4cd6-a6a7-9cecc6d59544",
-        limit: 50000,
+        limit: 83000,
       },
       dataType: "JSON",
       success: function (data) {
@@ -93,7 +94,7 @@ function GetTownDropdown() {
     for (let i = 0; i < dropdown_town.length; i++) {
       town_list.append(`<option>${dropdown_town[i]}</option>`);
     }
-  }, 700);
+  }, 1000);
 }
 
 // create droplist for flat type
@@ -125,7 +126,7 @@ function GetTypeDropdown() {
     for (let j = 0; j < dropdown_type.length; j++) {
       type_list.append(`<option>${dropdown_type[j]}</option>`);
     }
-  }, 700);
+  }, 1000);
 }
 
 const average = (array) => array.reduce((a, b) => a + b) / array.length;
@@ -165,37 +166,62 @@ function fetch() {
         }
       }
       for (const [key, value] of Object.entries(flat_prices)) {
-        flat_prices[key] = average(flat_prices[key]);
+        flat_prices[key] = average(flat_prices[key]).toFixed(2);
       }
       // console.log(flat_prices);
       if (Object.keys(flat_prices).length === 0) {
         alert("No resale flats found. Please select another Town or Flat Type");
       } else {
-        const ctx = $("#Resale_Chart");
+        // To generate resale flat graph
+        // const ctx = $("#Resale_Chart");
 
         if (!(myChart === undefined)) {
           // console.log("removing previous chart");
           myChart.destroy();
         }
-        myChart = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: Object.keys(flat_prices),
-            datasets: [
-              {
-                label: "Resale Price",
-                data: Object.values(flat_prices),
-              },
-            ],
+        // myChart = new Chart(ctx, {
+        //   type: "bar",
+        //   data: {
+        //     labels: Object.keys(flat_prices),
+        //     datasets: [
+        //       {
+        //         label: "Resale Price",
+        //         data: Object.values(flat_prices),
+        //       },
+        //     ],
+        //   },
+        //   options: {
+        //     scales: {
+        //       y: {
+        //         beginAtZero: true,
+        //       },
+        //     },
+        //   },
+        // });
+
+        var options_resale = {
+          chart: {
+            id: "Rental_Chart",
+            group: "housing",
+            type: "bar",
           },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
+          series: [
+            {
+              name: "Resale flat prices",
+              data: Object.values(flat_prices),
             },
+          ],
+          xaxis: {
+            categories: Object.keys(flat_prices),
           },
-        });
+        };
+
+        myChart = new ApexCharts(
+          document.querySelector("#Resale_Chart"),
+          options_resale
+        );
+
+        myChart.render();
       }
 
       // Rental prices calculation
@@ -204,7 +230,7 @@ function fetch() {
         const town = item.town;
         const type = item.flat_type.replace("-", " ");
         const year = item.rent_approval_date.slice(0, 4);
-        const price = parseInt(item.monthly_rent);
+        let price = parseInt(item.monthly_rent);
         if (town == selectedTown && type == selectedType) {
           if (!(year in rental_prices)) {
             rental_prices[year] = [price];
@@ -214,38 +240,66 @@ function fetch() {
         }
       }
       for (const [key, value] of Object.entries(rental_prices)) {
-        rental_prices[key] = average(rental_prices[key]);
+        rental_prices[key] = average(rental_prices[key]).toFixed(2);
       }
-      // console.log(rental_prices);
+
+      console.log(rental_prices);
+      console.log(Object.keys(rental_prices));
+      console.log(Object.values(rental_prices));
+
       if (Object.keys(rental_prices).length === 0) {
         alert("No rental flats found. Please select another Town or Flat Type");
       } else {
-        const ctx_rent = $("#Rental_Chart");
+        // To generate rental graph
+        // const ctx_rent = $("#Rental_Chart");
 
         if (!(rentalChart === undefined)) {
           // console.log("removing previous chart");
           rentalChart.destroy();
         }
-        rentalChart = new Chart(ctx_rent, {
-          type: "bar",
-          data: {
-            labels: Object.keys(rental_prices),
-            datasets: [
-              {
-                label: "Rental Price",
-                data: Object.values(rental_prices),
-              },
-            ],
+        // rentalChart = new Chart(ctx_rent, {
+        //   type: "bar",
+        //   data: {
+        //     labels: Object.keys(rental_prices),
+        //     datasets: [
+        //       {
+        //         label: "Rental Price",
+        //         data: Object.values(rental_prices),
+        //       },
+        //     ],
+        //   },
+        //   options: {
+        //     scales: {
+        //       y: {
+        //         beginAtZero: true,
+        //       },
+        //     },
+        //   },
+        // });
+        var options_rent = {
+          chart: {
+            id: "Rental_Chart",
+            group: "housing",
+            type: "bar",
           },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
+          series: [
+            {
+              name: "Rental flat prices",
+              data: Object.values(rental_prices),
             },
+          ],
+          xaxis: {
+            categories: Object.keys(rental_prices),
           },
-        });
+        };
+
+        rentalChart = new ApexCharts(
+          document.querySelector("#Rental_Chart"),
+          options_rent
+        );
+
+        rentalChart.render();
       }
-    } // else ends here
+    }
   }, 700);
 }

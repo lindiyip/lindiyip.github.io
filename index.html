@@ -24,6 +24,7 @@
     />
     <script defer src="./index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <style>
       .header {
         border: 1px;
@@ -32,7 +33,7 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
-        width: 1000px;
+        /* width: 1000px; */
         padding: 10px;
       }
       .parent {
@@ -41,7 +42,7 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
-        width: 1000px;
+        /* width: 1000px; */
         padding: 10px;
       }
       .child {
@@ -65,74 +66,15 @@
         flex-basis: 50%;
         padding: 5px;
       }
-      .child-button {
-        border: 1px solid;
-        background-color: rgb(12, 243, 31);
-        display: flex;
-        flex-direction: right;
-        justify-content: center;
-        text-align: center;
-        flex-basis: 20%;
-        padding: 5px;
-      }
       .child-graph {
         border: 1px solid;
-        background-color: orange;
+        background-color: whitesmoke;
         display: flex;
         flex-direction: column;
         justify-content: center;
         text-align: center;
         flex-basis: 50%;
         padding: 5px;
-      }
-      /* Dropdown Button */
-      .dropbtn {
-        background-color: #3498db;
-        color: white;
-        padding: 5px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-      }
-
-      /* Dropdown button on hover & focus */
-      .dropbtn:hover,
-      .dropbtn:focus {
-        background-color: #2980b9;
-      }
-
-      /* The container <div> - needed to position the dropdown content */
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-
-      /* Dropdown Content (Hidden by Default) */
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
-
-      /* Links inside the dropdown */
-      .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-      }
-
-      /* Change color of dropdown links on hover */
-      .dropdown-content a:hover {
-        background-color: #ddd;
-      }
-
-      /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-      .show {
-        display: block;
       }
     </style>
   </head>
@@ -161,17 +103,18 @@
         <div class="child-graph">
           Rental flat prices
           <div class="child-graph">
-            <div>
-              <canvas id="Rental_Chart"></canvas>
+            <div id="Rental_Chart">
+              <!-- <canvas id="Rental_Chart"></canvas> -->
             </div>
-            <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
           </div>
         </div>
+      </div>
+      <div class="parent">
         <div class="child-graph">
           Resale flat prices
           <div class="child-graph">
-            <div>
-              <canvas id="Resale_Chart"></canvas>
+            <div id="Resale_Chart">
+              <!-- <canvas id="Resale_Chart"></canvas> -->
             </div>
           </div>
         </div>
