@@ -134,6 +134,9 @@ const average = (array) => array.reduce((a, b) => a + b) / array.length;
 // fetch data button
 function fetch() {
   setTimeout(() => {
+    const hidediv = $("#hiddenByDefault");
+    hidediv.removeAttribute("hidden");
+
     // Determine selected options at dropdown list
 
     const selTown = document.getElementById("selTown");
@@ -173,37 +176,17 @@ function fetch() {
         alert("No resale flats found. Please select another Town or Flat Type");
       } else {
         // To generate resale flat graph
-        // const ctx = $("#Resale_Chart");
-
         if (!(myChart === undefined)) {
           // console.log("removing previous chart");
           myChart.destroy();
         }
-        // myChart = new Chart(ctx, {
-        //   type: "bar",
-        //   data: {
-        //     labels: Object.keys(flat_prices),
-        //     datasets: [
-        //       {
-        //         label: "Resale Price",
-        //         data: Object.values(flat_prices),
-        //       },
-        //     ],
-        //   },
-        //   options: {
-        //     scales: {
-        //       y: {
-        //         beginAtZero: true,
-        //       },
-        //     },
-        //   },
-        // });
 
         var options_resale = {
           chart: {
             id: "Rental_Chart",
             group: "housing",
             type: "bar",
+            height: 250,
           },
           series: [
             {
@@ -243,44 +226,24 @@ function fetch() {
         rental_prices[key] = average(rental_prices[key]).toFixed(2);
       }
 
-      console.log(rental_prices);
-      console.log(Object.keys(rental_prices));
-      console.log(Object.values(rental_prices));
+      // console.log(rental_prices);
+      // console.log(Object.keys(rental_prices));
+      // console.log(Object.values(rental_prices));
 
       if (Object.keys(rental_prices).length === 0) {
         alert("No rental flats found. Please select another Town or Flat Type");
       } else {
         // To generate rental graph
-        // const ctx_rent = $("#Rental_Chart");
-
         if (!(rentalChart === undefined)) {
           // console.log("removing previous chart");
           rentalChart.destroy();
         }
-        // rentalChart = new Chart(ctx_rent, {
-        //   type: "bar",
-        //   data: {
-        //     labels: Object.keys(rental_prices),
-        //     datasets: [
-        //       {
-        //         label: "Rental Price",
-        //         data: Object.values(rental_prices),
-        //       },
-        //     ],
-        //   },
-        //   options: {
-        //     scales: {
-        //       y: {
-        //         beginAtZero: true,
-        //       },
-        //     },
-        //   },
-        // });
         var options_rent = {
           chart: {
             id: "Rental_Chart",
             group: "housing",
             type: "bar",
+            height: 250,
           },
           series: [
             {
