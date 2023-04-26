@@ -39,8 +39,16 @@
         border: 1px;
         background-color: whitesmoke;
         display: flex;
-        /* flex-direction: column; */
         justify-content: center;
+        padding: 10px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      }
+      .parent2 {
+        border: 1px;
+        background-color: whitesmoke;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
         padding: 10px;
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       }
@@ -58,10 +66,12 @@
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        flex-basis: 100%;
         padding: 5px;
-        flex-basis: 80%;
       }
+      .hide {
+        visibility: hidden
+      }
+
       select {
             width: 500px;
       }
@@ -104,14 +114,18 @@
     </button>
     </div>
     </div>
-      <div class="parent">
-        <div hidden class="child-graph" id="Rental_Chart" id="'hiddenByDefault">
+      <div class="parent2">
+        <div class="child-graph hide" id="Rental_Title">
           Rental flat prices
         </div>
+        <div class="child-graph hide" id="Rental_Chart">
+        </div>
       </div>
-      <div class="parent">
-        <div hidden class="child-graph" id="Resale_Chart" id="'hiddenByDefault">
+      <div class="parent2">
+        <div class="child-graph hide" id="Resale_Title">
           Resale flat prices
+        </div>
+        <div class="child-graph hide" id="Resale_Chart">
         </div>
       </div>
     </div>

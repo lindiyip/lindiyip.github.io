@@ -134,9 +134,6 @@ const average = (array) => array.reduce((a, b) => a + b) / array.length;
 // fetch data button
 function fetch() {
   setTimeout(() => {
-    const hidediv = $("#hiddenByDefault");
-    hidediv.removeAttribute("hidden");
-
     // Determine selected options at dropdown list
 
     const selTown = document.getElementById("selTown");
@@ -175,6 +172,13 @@ function fetch() {
       if (Object.keys(flat_prices).length === 0) {
         alert("No resale flats found. Please select another Town or Flat Type");
       } else {
+        // Unhide rental graph if data is available
+        const hideResaleTitle = $("#Resale_Title")[0];
+        hideResaleTitle.classList.remove("hide");
+
+        const hideResale = $("#Resale_Chart")[0];
+        hideResale.classList.remove("hide");
+
         // To generate resale flat graph
         if (!(myChart === undefined)) {
           // console.log("removing previous chart");
@@ -226,13 +230,22 @@ function fetch() {
         rental_prices[key] = average(rental_prices[key]).toFixed(2);
       }
 
-      // console.log(rental_prices);
-      // console.log(Object.keys(rental_prices));
-      // console.log(Object.values(rental_prices));
-
       if (Object.keys(rental_prices).length === 0) {
         alert("No rental flats found. Please select another Town or Flat Type");
       } else {
+        // Append data to sync x-axis for synchronise chart
+        rental_prices[2017] = "0";
+        rental_prices[2018] = "0";
+        rental_prices[2019] = "0";
+        rental_prices[2020] = "0";
+
+        // Unhide rental graph if data is available
+        const hideRentalTitle = $("#Rental_Title")[0];
+        hideRentalTitle.classList.remove("hide");
+
+        const hideRental = $("#Rental_Chart")[0];
+        hideRental.classList.remove("hide");
+
         // To generate rental graph
         if (!(rentalChart === undefined)) {
           // console.log("removing previous chart");
