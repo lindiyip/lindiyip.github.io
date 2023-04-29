@@ -27,11 +27,9 @@ async function CallAPI() {
         resource_id: "f1765b54-a209-4718-8d38-a39237f502b3",
         limit: 150000,
       },
-      // data: { resource_id: "1b702208-44bf-4829-b620-4615ee19b57c" },
       dataType: "JSON",
       success: function (data) {
         // Accessing data in records
-
         records = data["result"]["records"];
         // console.log(records);
       },
@@ -54,7 +52,6 @@ async function CallAPIRental() {
       dataType: "JSON",
       success: function (data) {
         // Accessing data in records
-
         recordsRental = data["result"]["records"];
         // console.log(recordsRental);
       },
@@ -135,7 +132,6 @@ const average = (array) => array.reduce((a, b) => a + b) / array.length;
 function fetch() {
   setTimeout(() => {
     // Determine selected options at dropdown list
-
     const selTown = document.getElementById("selTown");
     selectedTown = selTown.options[selTown.selectedIndex].innerHTML;
     // console.log(selectedTown);
@@ -189,7 +185,7 @@ function fetch() {
           chart: {
             id: "Rental_Chart",
             group: "housing",
-            type: "bar",
+            type: "area",
             height: 250,
           },
           series: [
@@ -200,6 +196,11 @@ function fetch() {
           ],
           xaxis: {
             categories: Object.keys(flat_prices),
+          },
+          yaxis: {
+            labels: {
+              minWidth: 40,
+            },
           },
         };
 
@@ -255,7 +256,7 @@ function fetch() {
           chart: {
             id: "Rental_Chart",
             group: "housing",
-            type: "bar",
+            type: "line",
             height: 250,
           },
           series: [
@@ -266,6 +267,11 @@ function fetch() {
           ],
           xaxis: {
             categories: Object.keys(rental_prices),
+          },
+          yaxis: {
+            labels: {
+              minWidth: 40,
+            },
           },
         };
 
